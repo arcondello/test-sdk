@@ -28,26 +28,36 @@ else:
     exec(open("./dwaveoceansdk/package_info.py").read())
 
 
+# the packages that have pinned versions
+dwave_install_requires = [
+    'dwave-networkx==0.7.1',
+    'dwave-system==0.7.2',
+    'dwave-qbsolv==0.2.10',
+    'dwave-hybrid==0.2.1',
+    'dwave-neal==0.4.6',
+    'dwave-tabu==0.1.4',
+    'dimod==0.8.11',
+    ]
+
+dwave_extras_require = {
+    ':(platform_machine == "x86_64" or platform_machine == "amd64" or platform_machine == "AMD64") and python_version != "3.4"': [
+        'dwavebinarycsp[mip]==0.0.11'
+    ],
+    ':platform_machine != "x86_64" and platform_machine != "amd64" and platform_machine != "AMD64" or python_version == "3.4"': [
+        'dwavebinarycsp[maxgap]==0.0.11'
+    ]
+}
+
+# other packages that we support/require that have version ranges
 install_requires = [
-    'dwave-networkx>=0.7.0,<0.8.0',
-    'dwave-system>=0.7.0,<0.8.0',
-    'dwave-qbsolv>=0.2.7,<0.3.0',
-    'dwave-hybrid>=0.2.0,<0.3.0',
-    'dwave-neal>=0.4.0,<0.5.0',
-    'dwave-tabu>=0.1.3,<0.2.0',
-    'dimod>=0.8.0,<0.9.0',
     'numpy<1.16.0',     # only while we support py34
     'pyqubo>=0.3.0',
 ]
+install_requires.extend(dwave_install_requires)
 
-extras_require = {
-    ':(platform_machine == "x86_64" or platform_machine == "amd64" or platform_machine == "AMD64") and python_version != "3.4"': [
-        'dwavebinarycsp[mip]>=0.0.9,<0.1.0'
-    ],
-    ':platform_machine != "x86_64" and platform_machine != "amd64" and platform_machine != "AMD64" or python_version == "3.4"': [
-        'dwavebinarycsp[maxgap]>=0.0.9,<0.1.0'
-    ]
-}
+
+extras_require = {}
+extras_require.update(dwave_extras_require)
 
 
 packages = ['dwaveoceansdk']
